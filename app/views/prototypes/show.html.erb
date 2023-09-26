@@ -2,9 +2,9 @@
   <div class="inner">
     <div class="prototype__wrapper">
       <p class="prototype__hedding">
-        <%= "プロトタイプのタイトル"%>
+        <%= "#{@prototype.title}"%>
       </p>
-      <%= link_to "by プロトタイプの投稿者", "/users/#{current_user.id}", class: :prototype__user %>
+      <%= link_to "by""#{current_user.name}", "/users/#{current_user.id}", class: :prototype__user %>
       <%# プロトタイプの投稿者とログインしているユーザーが同じであれば以下を表示する %>
         <% if user_signed_in? && current_user.id == @prototype.user_id %>
           <div class="prototype__manage">
@@ -20,13 +20,13 @@
         <div class="prototype__detail">
           <p class="detail__title">キャッチコピー</p>
           <p class="detail__message">
-            <%= "プロトタイプのキャッチコピー" %>
+            <%= "#{@prototype.catch_copy}" %>
           </p>
         </div>
         <div class="prototype__detail">
           <p class="detail__title">コンセプト</p>
           <p class="detail__message">
-            <%= "プロトタイプのコンセプト" %>
+            <%= "#{@prototype.concept}" %>
           </p>
         </div>
       </div>

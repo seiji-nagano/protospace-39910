@@ -1,9 +1,9 @@
 <div class="card">
   <%= image_tag prototype.image.variant(resize: '500x500'), class: 'prototype-image' if prototype.image.attached? %>
   <div class="card__body">
-    <%= link_to "プロトタイプのタイトル", prototype_path(prototype.id), class: :card__title%>
+    <%= link_to "#{prototype.title}", prototype_path(prototype.id), class: :card__title%>
     <p class="card__summary">
-      <%= "プロトタイプのキャッチコピー" %>
+      <%= "#{prototype.catch_copy}" %>
     </p>
     <%= link_to "by""#{current_user.name}", "/users/#{current_user.id}", class: :card__user %>
   </div>
