@@ -1,5 +1,6 @@
 class PrototypesController < ApplicationController
   before_action :move_to_index, except: [:index, :show]
+  before_action :set_prototype, only: [:edit, :show, :update]
 
   def index
     @prototypes = Prototype.all
@@ -25,13 +26,18 @@ class PrototypesController < ApplicationController
   end
 
   def edit
-    @prototype = Prototype.find(params[:id])
+    if user_signed_in? && current_user == @prototype.user
+      # ログイン済みかつプロトタイプの所有者の場合は編集を許可
+      render :edit
+    else
+      redirect_to root_path, alert: '他のユーザーのプロトタイプを編集する権限がありません'
+    end
   end
 
   def update
-    prototype = Prototype.find(params[:id])
-    if prototype.update(prototype_params)
-      redirect_to root_path
+    @prototype = Prototype.find(params[:id])
+    if @prototype.update(prototype_params)
+      redirect_to prototype_path(@prototype.id)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -47,6 +53,11 @@ class PrototypesController < ApplicationController
   def prototype_params
     params.require(:prototype).permit(:title, :image, :catch_copy, :concept).merge(user_id: current_user.id)
   end
+
+  def set_prototype
+    @prototype = Prototype.find(params[:id])
+  end
+
 
   def move_to_index
     unless user_signed_in?
